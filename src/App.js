@@ -51,9 +51,19 @@ function App() {
     send(todo);
   };
 
+  // 컴포넌트가 렌더링 될 때마다 작성되어있는 함수가 다시 호출됨
+  // useCallback : 함수가 매번 정의되는것을 막기 위해 사용
   const onRemove = useCallback(
     (id) => {
-      setTodos(todos.filter((todo) => todo.id !== id));
+      // setTodos(todos.filter((todo) => todo.id !== id));
+      async function send() {
+        const url = `http://127.0.0.1:8080/remove?id=${id}`;
+        const res = await fetch(url);
+        await res.json();
+        // await res.text(); // "삭제 완료"를 넘겨주려면 json이 아닌 text 사용
+        setChange(prev => !prev);
+      }
+      send();
     },
     [todos]
   );
@@ -71,7 +81,8 @@ function App() {
   return (
     <TodoTemplate>
       <TodoInsert onInsert={onInsert} />
-      <TodoList todos={todos} onRemove={onRemove}
+      <TodoList todos={todos}
+        onRemove={onRemove}
         onToggle={onToggle} />
     </TodoTemplate>
 
