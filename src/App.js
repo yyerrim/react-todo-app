@@ -59,7 +59,7 @@ function App() {
       async function send() {
         const url = `http://127.0.0.1:8080/remove?id=${id}`;
         const res = await fetch(url);
-        await res.json();
+        const data = await res.json();
         // await res.text(); // "삭제 완료"를 넘겨주려면 json이 아닌 text 사용
         setChange(prev => !prev);
       }
@@ -70,11 +70,18 @@ function App() {
 
   const onToggle = useCallback(
     (id) => {
-      setTodos(
-        todos.map((todo) =>
-          todo.id === id ? { ...todo, checked: !todo.checked } : todo
-        ),
-      );
+      // setTodos(
+      //   todos.map((todo) =>
+      //     todo.id === id ? { ...todo, checked: !todo.checked } : todo
+      //   ),
+      // );
+      async function send() {
+        const url = `http://127.0.0.1:8080/modify?id=${id}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        setChange(prev => !prev);
+      }
+      send();
     }, [todos]
   );
 
