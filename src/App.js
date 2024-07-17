@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
 import TodoListItem from './components/TodoListItem';
 import TodoTemplate from './components/TodoTemplate';
+import { ChangeContext } from './Context';
 
 function App() {
   // 처음에 보여줄 항목 3개
@@ -85,14 +86,28 @@ function App() {
     }, [todos]
   );
 
-  return (
-    <TodoTemplate>
-      <TodoInsert onInsert={onInsert} />
-      <TodoList todos={todos}
-        onRemove={onRemove}
-        onToggle={onToggle} />
-    </TodoTemplate>
+  // return (
+  //   <TodoTemplate>
+  //     <TodoInsert onInsert={onInsert} />
+  //     <TodoList todos={todos}
+  //       onRemove={onRemove}
+  //       onToggle={onToggle} />
+  //   </TodoTemplate>
+  // );
 
+  // PDF 10
+  // const ChangeContext = React.createContext();
+  // Context.js 파일 생성
+
+  return (
+    <ChangeContext.Provider value={change}>
+      <TodoTemplate>
+        <TodoInsert onInsert={onInsert} />
+        <TodoList todos={todos}
+          onRemove={onRemove}
+          onToggle={onToggle} />
+      </TodoTemplate>
+    </ChangeContext.Provider>
   );
 }
 export default App;
